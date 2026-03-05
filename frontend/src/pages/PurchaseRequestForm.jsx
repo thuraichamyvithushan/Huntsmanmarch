@@ -350,21 +350,56 @@ const PurchaseRequestForm = () => {
                         />
                     </div>
 
-                    {/* Experience Field (Always present now) */}
+                    {/* Marketing Interest */}
                     <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-200 group focus-within:shadow-md transition-shadow">
-                        <label className="block text-base font-medium text-gray-900 mb-4">
-                            Tell us your best Hikmicro experience (150 words minimum) <span className="text-red-600">*</span>
+                        <label className="block text-base font-medium text-gray-900 mb-6">
+                            Are you interested in sharing your experience with Hikmicro for future marketing? Selected experiences may receive Hikmicro HABROK HE25 2.0 and Hikmicro merchandise. <span className="text-red-600">*</span>
                         </label>
-                        <textarea
-                            name="experience"
-                            required
-                            value={formData.experience}
-                            onChange={handleChange}
-                            rows="6"
-                            className="w-full border border-gray-300 rounded-xl focus:border-red-600 focus:outline-none p-4 transition-all duration-300 bg-transparent text-gray-900 placeholder-gray-400 focus-within:shadow-md"
-                            placeholder="Your answer"
-                        ></textarea>
+                        <div className="space-y-4">
+                            <label className="flex items-center space-x-3 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    name="marketingInterest"
+                                    value="Yes"
+                                    checked={formData.marketingInterest === 'Yes'}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-5 h-5 text-red-600 border-gray-300 focus:ring-red-500 focus:ring-offset-0"
+                                />
+                                <span className="text-gray-700 group-hover:text-red-600 transition-colors">Yes</span>
+                            </label>
+                            <label className="flex items-center space-x-3 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    name="marketingInterest"
+                                    value="No"
+                                    checked={formData.marketingInterest === 'No'}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-5 h-5 text-red-600 border-gray-300 focus:ring-red-500 focus:ring-offset-0"
+                                />
+                                <span className="text-gray-700 group-hover:text-red-600 transition-colors">No</span>
+                            </label>
+                        </div>
                     </div>
+
+                    {/* Experience Field (Conditionally present now) */}
+                    {formData.marketingInterest === 'Yes' && (
+                        <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-200 group focus-within:shadow-md transition-shadow animate-slide-up">
+                            <label className="block text-base font-medium text-gray-900 mb-4">
+                                Redeem your trail camera. For an extra draw entry, share your best Hikmicro experience in 150 words or less. Weekly best answers receive merchandise (beanie, jacket, shirt, stubbie holder). The top entry will win the HE25L 2.0 on the previously mentioned date. <span className="text-red-600">*</span>
+                            </label>
+                            <textarea
+                                name="experience"
+                                required
+                                value={formData.experience}
+                                onChange={handleChange}
+                                rows="6"
+                                className="w-full border border-gray-300 rounded-xl focus:border-red-600 focus:outline-none p-4 transition-all duration-300 bg-transparent text-gray-900 placeholder-gray-400 focus-within:shadow-md"
+                                placeholder="Your answer"
+                            ></textarea>
+                        </div>
+                    )}
 
                     <div className="flex items-center justify-between py-6">
                         <button

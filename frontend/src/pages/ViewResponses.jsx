@@ -193,6 +193,7 @@ const ViewResponses = () => {
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Serial</th>
                                     <th className="px-8 py-6 text-center text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Receipt</th>
                                     <th className="px-8 py-6 text-center text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Box Photo</th>
+                                    <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Interest</th>
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Experience</th>
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Date</th>
                                     <th className="px-8 py-6 text-center text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Action</th>
@@ -269,6 +270,11 @@ const ViewResponses = () => {
                                                     <span className="text-gray-300 text-[10px] font-black uppercase">None</span>
                                                 )}
                                             </td>
+                                            <td className="px-8 py-6 whitespace-nowrap">
+                                                <span className={`px-3 py-1 rounded-lg text-xs font-bold ${request.marketingInterest === 'Yes' ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-500'}`}>
+                                                    {request.marketingInterest}
+                                                </span>
+                                            </td>
                                             <td className="px-8 py-6">
                                                 <p className="text-xs font-medium text-gray-600 line-clamp-2 max-w-[200px]" title={request.experience}>
                                                     {request.experience || '---'}
@@ -343,6 +349,7 @@ const ViewResponses = () => {
                                         {renderModalField('Name', selectedRequest.employeeName)}
                                         {renderModalField('Phone Number', selectedRequest.phoneNumber)}
                                         {renderModalField('Email', selectedRequest.publicEmail)}
+                                        {renderModalField('Interest', selectedRequest.marketingInterest)}
                                         {selectedRequest.experience && renderModalField('Experience', selectedRequest.experience)}
                                     </div>
                                     <div className="space-y-0">
