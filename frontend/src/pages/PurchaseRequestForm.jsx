@@ -387,7 +387,7 @@ const PurchaseRequestForm = () => {
                     {formData.marketingInterest === 'Yes' && (
                         <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-200 group focus-within:shadow-md transition-shadow animate-slide-up">
                             <label className="block text-base font-medium text-gray-900 mb-4">
-                                Redeem your trail camera. For an extra draw entry, share your best Hikmicro experience in 150 words or less. Weekly best answers receive merchandise (beanie, jacket, shirt, stubbie holder). The top entry will win the HE25L 2.0 on the previously mentioned date. <span className="text-red-600">*</span>
+                            Share your best Hikmicro experience in 150 words or less. Weekly best answers receive merchandise (beanie, jacket, shirt, stubbie holder). The top entry will win the HE25L 2.0 on the previously mentioned date. <span className="text-red-600">*</span>
                             </label>
                             <textarea
                                 name="experience"
