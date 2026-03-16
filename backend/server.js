@@ -54,6 +54,7 @@ app.get('/api/admin/purchase-requests', authController.protect, authController.a
 app.get('/api/admin/purchase-requests/:id', authController.protect, authController.adminOnly, purchaseController.getPurchaseRequestById);
 app.put('/api/admin/purchase-requests/:id', authController.protect, authController.adminOnly, purchaseController.updatePurchaseRequest);
 app.delete('/api/admin/purchase-requests/:id', authController.protect, authController.adminOnly, purchaseController.deletePurchaseRequest);
+app.put('/api/admin/purchase-requests/:id/dispatch', authController.protect, authController.adminOnly, purchaseController.dispatchPurchaseRequest);
 
 // Product Management
 app.get('/api/products', productController.getProducts); // Public for form access

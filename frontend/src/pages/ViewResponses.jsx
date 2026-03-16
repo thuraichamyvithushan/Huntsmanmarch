@@ -81,6 +81,28 @@ const ViewResponses = () => {
         }
     };
 
+    const handleDispatch = async (requestId) => {
+        try {
+            const token = await user.getIdToken();
+            const response = await fetch(
+                `${API_BASE_URL}/api/admin/purchase-requests/${requestId}/dispatch`,
+                {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }
+            );
+
+            if (response.ok) {
+                setRequests(requests.map(r => r.id === requestId ? { ...r, status: 'dispatched' } : r));
+            } else {
+                const data = await response.json();
+                setError(data.error || 'Failed to dispatch request');
+            }
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     const handleFilterChange = (e) => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
@@ -197,7 +219,8 @@ const ViewResponses = () => {
                     <button
                         onClick={handleExportCSV}
                         disabled={requests.length === 0}
-                        className={`py-4 px-8 font-bold rounded-2xl transition-all duration-300 shadow-lg flex items-center justify-center space-x-2 ${requests.length === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 hover:shadow-2xl transform hover:scale-[1.02] active:scale-95'}`}
+                        className={`py-4 px-8 font-bold rounded-2xl transition-all duration-300 shadow-lg flex items-center justify-center space-x-2 ${requests.length === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'text-white hover:shadow-2xl transform hover:scale-[1.02] active:scale-95'}`}
+                        style={requests.length === 0 ? {} : { background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' }}
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -257,7 +280,7 @@ const ViewResponses = () => {
                                     </tr>
                                 ) : (
                                     requests.map((request) => (
-                                        <tr key={request.id} className="hover:bg-red-50/30 transition-colors duration-200 group">
+                                        <tr key={request.id} className={`transition-colors duration-200 group ${request.status === 'dispatched' ? 'bg-green-50 hover:bg-green-100/50' : 'hover:bg-red-50/30'}`}>
                                             <td className="px-8 py-6 whitespace-nowrap">
                                                 <div className="flex items-center">
                                                     <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-black text-gray-500 mr-3">
@@ -337,6 +360,13 @@ const ViewResponses = () => {
                                                         className="inline-flex items-center px-4 py-2 bg-red-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-red-700 transition-all duration-300 shadow-lg shadow-red-200"
                                                     >
                                                         View
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDispatch(request.id)}
+                                                        className={`inline-flex items-center px-4 py-2 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-lg ${request.status === 'dispatched' ? 'bg-green-600 text-white cursor-default' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'}`}
+                                                        disabled={request.status === 'dispatched'}
+                                                    >
+                                                        {request.status === 'dispatched' ? 'Dispatched' : 'Dispatch'}
                                                     </button>
                                                     <button
                                                         onClick={() => { setRequestToDelete(request.id); setIsDeleteModalOpen(true); }}

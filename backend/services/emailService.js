@@ -25,6 +25,7 @@ const getSubject = (type, data) => {
     case 'newSubmissionNotification': return `ALERT: New Receipt Submission - ${data.request.employeeName}`;
     case 'newRegistrationAdmin': return `ALERT: New User Registration Pending Approval`;
     case 'roleUpdated': return `Access Policy Updated - Huntsman Optics`;
+    case 'dispatchNotification': return `Your HIKMICRO Order Has Been Dispatched`;
     default: return 'Huntsman Form Notification';
   }
 };
@@ -232,6 +233,33 @@ const getHtmlBody = (type, data) => {
             ${submissionDetails(request)}
             <div style="padding: 40px; text-align: center; border-radius: 0 0 16px 16px; border-top: 1px solid #f1f5f9; background-color: ${containerBg};">
               <p style="color: ${textLight}; font-size: 13px;">Automated confirmation. No action required.</p>
+            </div>
+            ${footer}
+          </div>
+        </body>
+      </html>
+    `;
+  }
+
+  if (type === 'dispatchNotification') {
+    return `
+      <html>
+        <body style="${commonStyles}">
+          <div style="max-width: 600px; margin: 0 auto;">
+            ${header}
+            <div style="padding: 40px; background-color: ${containerBg}; border-radius: 0 0 16px 16px;">
+              <h2 style="color: ${textDark}; margin: 0 0 20px 0; font-size: 20px;">Dear ${_esc(request.employeeName)},</h2>
+              <p style="color: ${textDark}; font-size: 16px; margin-bottom: 20px;">
+                Thank you for your purchase of the HIKMICRO M15 Trail Camera. Your SD card promotion has been applied, and the order has now been dispatched to your address.
+              </p>
+              <p style="color: ${textDark}; font-size: 16px; margin-bottom: 30px;">
+                If you have any questions, please feel free to contact us.
+              </p>
+              <div style="color: ${textLight}; font-size: 14px; font-weight: 600;">
+                Regards,<br>
+                Warehouse Team<br>
+                Huntsman Optics
+              </div>
             </div>
             ${footer}
           </div>

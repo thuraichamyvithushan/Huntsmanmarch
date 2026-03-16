@@ -175,3 +175,35 @@ exports.deletePurchaseRequest = async (req, res) => {
     }
 };
 
+exports.dispatchPurchaseRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const docRef = db.collection(COLLECTION_NAME).doc(id);
+        const doc = await docRef.get();
+
+        if (!doc.exists) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+
+        const requestData = { id: doc.id, ...doc.data() };
+
+        // Send dispatch email to customer
+        if (requestData.publicEmail) {
+            await sendEmail(requestData.publicEmail, 'dispatchNotification', {
+                request: requestData
+            });
+        }
+
+        // Update status to 'dispatched'
+        await docRef.update({
+            status: 'dispatched',
+            updatedAt: new Date().toISOString()
+        });
+
+        res.json({ message: 'Order dispatched and email sent successfully' });
+    } catch (error) {
+        console.error('Error dispatching purchase request:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
