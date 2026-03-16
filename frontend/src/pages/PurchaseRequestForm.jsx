@@ -45,6 +45,7 @@ const PurchaseRequestForm = () => {
         publicEmail: '',
         serialNumber: '',
         shopName: '',
+        address: '',
         marketingInterest: '',
         experience: ''
     });
@@ -129,6 +130,7 @@ const PurchaseRequestForm = () => {
                 publicEmail: '',
                 serialNumber: '',
                 shopName: '',
+                address: '',
                 marketingInterest: '',
                 experience: ''
             });
@@ -230,6 +232,22 @@ const PurchaseRequestForm = () => {
                             name="publicEmail"
                             required
                             value={formData.publicEmail}
+                            onChange={handleChange}
+                            className="w-full sm:w-2/3 border-b border-gray-300 focus:border-red-600 focus:outline-none py-2 transition-all duration-300 bg-transparent text-gray-900 placeholder-gray-400 group-focus-within:border-red-600"
+                            placeholder="Your answer"
+                        />
+                    </div>
+
+                    {/* Postal Address */}
+                    <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-200 group focus-within:shadow-md transition-shadow">
+                        <label className="block text-base font-medium text-gray-900 mb-6">
+                            Postal Address <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="address"
+                            required
+                            value={formData.address}
                             onChange={handleChange}
                             className="w-full sm:w-2/3 border-b border-gray-300 focus:border-red-600 focus:outline-none py-2 transition-all duration-300 bg-transparent text-gray-900 placeholder-gray-400 group-focus-within:border-red-600"
                             placeholder="Your answer"
@@ -387,7 +405,7 @@ const PurchaseRequestForm = () => {
                     {formData.marketingInterest === 'Yes' && (
                         <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-200 group focus-within:shadow-md transition-shadow animate-slide-up">
                             <label className="block text-base font-medium text-gray-900 mb-4">
-                            Share your best Hikmicro experience in 150 words or less. Weekly best answers receive merchandise (beanie, jacket, shirt, stubbie holder). The top entry will win the HE25L 2.0 on the previously mentioned date. <span className="text-red-600">*</span>
+                                Share your best Hikmicro experience in 150 words or less. Weekly best answers receive merchandise (beanie, jacket, shirt, stubbie holder). The top entry will win the HE25L 2.0 on the previously mentioned date. <span className="text-red-600">*</span>
                             </label>
                             <textarea
                                 name="experience"

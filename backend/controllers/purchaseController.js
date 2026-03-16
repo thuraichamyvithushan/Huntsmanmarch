@@ -7,11 +7,16 @@ const COLLECTION_NAME = 'purchaseRequests';
 
 exports.createPurchaseRequest = async (req, res) => {
     try {
+        console.log('Incoming Purchase Request Body:', req.body);
+
         const {
             employeeName, phoneNumber, publicEmail,
-            serialNumber, shopName, marketingInterest,
+            serialNumber, shopName, address, marketingInterest,
             experience
         } = req.body;
+
+        // Use a fallback to ensure we capture something if it's missing but exists elsewhere
+        const capturedAddress = address || req.body.address || 'N/A';
 
         const files = req.files;
         let receiptUrl = '';
@@ -59,6 +64,7 @@ exports.createPurchaseRequest = async (req, res) => {
             publicEmail,
             serialNumber,
             shopName,
+            address: capturedAddress,
             marketingInterest,
             experience: experience || '',
             adminEmail,

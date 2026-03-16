@@ -94,6 +94,39 @@ const ViewResponses = () => {
         setTimeout(() => fetchRequests(), 0);
     };
 
+    const handleExportCSV = () => {
+        if (requests.length === 0) return;
+
+        const headers = ["Name", "Phone", "Email", "Shop", "Address", "Serial", "Interest", "Experience", "Receipt URL", "Box Photo URL", "Date"];
+        const csvRows = [
+            headers.join(','),
+            ...requests.map(req => [
+                `"${req.employeeName || ''}"`,
+                `"${req.phoneNumber || ''}"`,
+                `"${req.publicEmail || ''}"`,
+                `"${req.shopName || ''}"`,
+                `"${req.address || ''}"`,
+                `"${req.serialNumber || ''}"`,
+                `"${req.marketingInterest || ''}"`,
+                `"${req.experience ? req.experience.replace(/"/g, '""') : ''}"`,
+                `"${req.receiptUrl || ''}"`,
+                `"${req.boxPhotoUrl || ''}"`,
+                `"${new Date(req.createdAt).toLocaleDateString()}"`
+            ].join(','))
+        ];
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `huntsman_submissions_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
 
     const renderModalField = (label, value) => (
         <div className="py-4 border-b border-gray-50 last:border-0 flex flex-col sm:flex-row sm:items-start justify-between group gap-2">
@@ -161,6 +194,16 @@ const ViewResponses = () => {
                     >
                         Clear All
                     </button>
+                    <button
+                        onClick={handleExportCSV}
+                        disabled={requests.length === 0}
+                        className={`py-4 px-8 font-bold rounded-2xl transition-all duration-300 shadow-lg flex items-center justify-center space-x-2 ${requests.length === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 hover:shadow-2xl transform hover:scale-[1.02] active:scale-95'}`}
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Export CSV</span>
+                    </button>
                 </div>
             </div>
 
@@ -190,6 +233,7 @@ const ViewResponses = () => {
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Phone</th>
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Email</th>
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Shop</th>
+                                    <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Address</th>
                                     <th className="px-8 py-6 text-left text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Serial</th>
                                     <th className="px-8 py-6 text-center text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Receipt</th>
                                     <th className="px-8 py-6 text-center text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Box Photo</th>
@@ -232,6 +276,9 @@ const ViewResponses = () => {
                                             </td>
                                             <td className="px-8 py-6 whitespace-nowrap">
                                                 <span className="text-sm font-bold text-gray-900">{request.shopName}</span>
+                                            </td>
+                                            <td className="px-8 py-6 whitespace-nowrap text-sm font-bold text-gray-900 truncate max-w-[150px]" title={request.address}>
+                                                {request.address}
                                             </td>
                                             <td className="px-8 py-6 whitespace-nowrap">
                                                 <span className="text-sm font-bold text-red-700 bg-red-50 px-3 py-1 rounded-lg">{request.serialNumber}</span>
@@ -349,6 +396,7 @@ const ViewResponses = () => {
                                         {renderModalField('Name', selectedRequest.employeeName)}
                                         {renderModalField('Phone Number', selectedRequest.phoneNumber)}
                                         {renderModalField('Email', selectedRequest.publicEmail)}
+                                        {renderModalField('Address', selectedRequest.address)}
                                         {renderModalField('Interest', selectedRequest.marketingInterest)}
                                         {selectedRequest.experience && renderModalField('Experience', selectedRequest.experience)}
                                     </div>
