@@ -290,7 +290,7 @@ const ViewResponses = () => {
                                     </tr>
                                 ) : (
                                     requests.map((request) => (
-                                        <tr key={request.id} className={`transition-colors duration-200 group ${request.status === 'dispatched' ? 'bg-green-50 hover:bg-green-100/50' : 'hover:bg-red-50/30'}`}>
+                                        <tr key={request.id} className={`transition-colors duration-200 group ${request.status === 'dispatched' ? 'bg-green-100 hover:bg-green-200/50' : 'hover:bg-red-50/30'}`}>
                                             <td className="px-8 py-6 whitespace-nowrap">
                                                 <div className="flex items-center">
                                                     <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-black text-gray-500 mr-3">
@@ -371,13 +371,14 @@ const ViewResponses = () => {
                                                     >
                                                         View
                                                     </button>
-                                                    <button
-                                                        onClick={() => { setRequestToDispatch(request.id); setIsDispatchModalOpen(true); }}
-                                                        className={`inline-flex items-center px-4 py-2 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-lg ${request.status === 'dispatched' ? 'bg-green-600 text-white cursor-default' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'}`}
-                                                        disabled={request.status === 'dispatched'}
-                                                    >
-                                                        {request.status === 'dispatched' ? 'Dispatched' : 'Dispatch'}
-                                                    </button>
+                                                    {request.status !== 'dispatched' && (
+                                                        <button
+                                                            onClick={() => { setRequestToDispatch(request.id); setIsDispatchModalOpen(true); }}
+                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-200"
+                                                        >
+                                                            Dispatch
+                                                        </button>
+                                                    )}
                                                     <button
                                                         onClick={() => { setRequestToDelete(request.id); setIsDeleteModalOpen(true); }}
                                                         className="inline-flex items-center px-3 py-2 bg-gray-100 text-gray-500 text-xs font-black rounded-xl hover:bg-red-50 hover:text-red-600 transition-all duration-300"
@@ -528,14 +529,14 @@ const ViewResponses = () => {
                                 </svg>
                             </div>
                             <h3 className="text-xl font-black text-gray-900 mb-2">Confirm Dispatch?</h3>
-                            <p className="text-gray-500 text-sm mb-8 font-medium">An email will be sent to the customer notifying them that their order has been dispatched.</p>
+                            <p className="text-gray-500 text-sm mb-8 font-medium">An automated dispatch email will be sent to the customer immediately..</p>
                             <div className="flex flex-col space-y-3">
                                 <button
                                     onClick={handleDispatch}
                                     disabled={isDispatching}
                                     className={`py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform active:scale-95 ${isDispatching ? 'opacity-70' : ''}`}
                                 >
-                                    {isDispatching ? 'Dispatching...' : 'Yes, Dispatch'}
+                                    {isDispatching ? 'Sending Email...' : 'Confirm Dispatch'}
                                 </button>
                                 <button
                                     onClick={() => { setIsDispatchModalOpen(false); setRequestToDispatch(null); }}
