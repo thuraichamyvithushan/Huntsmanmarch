@@ -21,6 +21,10 @@ const ViewResponses = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    const [requestToDispatch, setRequestToDispatch] = useState(null);
+    const [isDispatchModalOpen, setIsDispatchModalOpen] = useState(false);
+    const [isDispatching, setIsDispatching] = useState(false);
+
     useEffect(() => {
         fetchRequests();
     }, [user, filters.status]);
@@ -81,11 +85,13 @@ const ViewResponses = () => {
         }
     };
 
-    const handleDispatch = async (requestId) => {
+    const handleDispatch = async () => {
+        if (!requestToDispatch) return;
+        setIsDispatching(true);
         try {
             const token = await user.getIdToken();
             const response = await fetch(
-                `${API_BASE_URL}/api/admin/purchase-requests/${requestId}/dispatch`,
+                `${API_BASE_URL}/api/admin/purchase-requests/${requestToDispatch}/dispatch`,
                 {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -93,13 +99,17 @@ const ViewResponses = () => {
             );
 
             if (response.ok) {
-                setRequests(requests.map(r => r.id === requestId ? { ...r, status: 'dispatched' } : r));
+                setRequests(requests.map(r => r.id === requestToDispatch ? { ...r, status: 'dispatched' } : r));
+                setIsDispatchModalOpen(false);
+                setRequestToDispatch(null);
             } else {
                 const data = await response.json();
                 setError(data.error || 'Failed to dispatch request');
             }
         } catch (err) {
             setError(err.message);
+        } finally {
+            setIsDispatching(false);
         }
     };
 
@@ -362,7 +372,7 @@ const ViewResponses = () => {
                                                         View
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDispatch(request.id)}
+                                                        onClick={() => { setRequestToDispatch(request.id); setIsDispatchModalOpen(true); }}
                                                         className={`inline-flex items-center px-4 py-2 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-lg ${request.status === 'dispatched' ? 'bg-green-600 text-white cursor-default' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'}`}
                                                         disabled={request.status === 'dispatched'}
                                                     >
@@ -498,6 +508,37 @@ const ViewResponses = () => {
                                 </button>
                                 <button
                                     onClick={() => setIsDeleteModalOpen(false)}
+                                    className="py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all duration-300"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isDispatchModalOpen && (
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-slide-up">
+                        <div className="p-8 text-center">
+                            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-black text-gray-900 mb-2">Confirm Dispatch?</h3>
+                            <p className="text-gray-500 text-sm mb-8 font-medium">An email will be sent to the customer notifying them that their order has been dispatched.</p>
+                            <div className="flex flex-col space-y-3">
+                                <button
+                                    onClick={handleDispatch}
+                                    disabled={isDispatching}
+                                    className={`py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform active:scale-95 ${isDispatching ? 'opacity-70' : ''}`}
+                                >
+                                    {isDispatching ? 'Dispatching...' : 'Yes, Dispatch'}
+                                </button>
+                                <button
+                                    onClick={() => { setIsDispatchModalOpen(false); setRequestToDispatch(null); }}
                                     className="py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all duration-300"
                                 >
                                     Cancel
