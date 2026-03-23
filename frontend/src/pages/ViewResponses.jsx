@@ -412,8 +412,8 @@ const ViewResponses = () => {
             </div>
 
             {isViewModalOpen && selectedRequest && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden relative animate-slide-up">
+                <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in pt-16 sm:pt-24">
+                    <div className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden relative animate-slide-down">
                         <div className="p-10 sm:p-14">
                             <div className="flex justify-between items-center mb-10">
                                 <div>
@@ -489,8 +489,8 @@ const ViewResponses = () => {
             )}
 
             {isDeleteModalOpen && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-slide-up">
+                <div className="fixed inset-0 z-[110] flex items-start justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in pt-20">
+                    <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-slide-down">
                         <div className="p-8 text-center">
                             <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
                                 <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -520,8 +520,8 @@ const ViewResponses = () => {
             )}
 
             {isDispatchModalOpen && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-slide-up">
+                <div className="fixed inset-0 z-[110] flex items-start justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in pt-20">
+                    <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-slide-down">
                         <div className="p-8 text-center">
                             <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
                                 <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
