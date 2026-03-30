@@ -250,8 +250,7 @@ const getHtmlBody = (type, data) => {
             <div style="padding: 40px; background-color: ${containerBg}; border-radius: 0 0 16px 16px;">
               <h2 style="color: ${textDark}; margin: 0 0 20px 0; font-size: 20px;">Dear ${_esc(request.employeeName)},</h2>
               <p style="color: ${textDark}; font-size: 16px; margin-bottom: 20px;">
-                Thank you for your purchase of the HIKMICRO M15 Trail Camera. Your SD card promotion has been applied, and the order has now been dispatched to your address.
-              </p>
+                  Thank you for your purchase,  HIKMICRO M15 Trail Camera and  SD card promotion has been applied, and the order has now been dispatched to your address.              </p>
               <p style="color: ${textDark}; font-size: 16px; margin-bottom: 30px;">
                 If you have any questions, please feel free to contact us.
               </p>
