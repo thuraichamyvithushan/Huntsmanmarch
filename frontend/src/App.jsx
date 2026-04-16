@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import PurchaseRequestForm from './pages/PurchaseRequestForm';
+import OfferClosed from './pages/OfferClosed';
 import ViewResponses from './pages/ViewResponses';
 import ResponseConfirmation from './pages/ResponseConfirmation';
 import ManageAdmins from './pages/ManageAdmins';
@@ -68,7 +69,8 @@ function App() {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
           <Route path="/respond/:token" element={<ResponseConfirmation />} />
-          <Route path="/" element={<PublicRoute><PurchaseRequestForm /></PublicRoute>} />
+          <Route path="/" element={<PublicRoute><OfferClosed /></PublicRoute>} />
+          <Route path="/claim-offer" element={<PublicRoute><PurchaseRequestForm /></PublicRoute>} />
 
           {/* Private Routes */}
           <Route path="/dashboard" element={<ProtectedRoute allowedRoles={['admin', 'representative']}><DashboardLayout /></ProtectedRoute>}>
