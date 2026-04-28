@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5001;
 app.use(cors({
     origin: [
         'https://huntsmanmarch.vercel.app',
+        'https://huntsmanmarch.vercel.app',
         'http://localhost:5173'
     ],
     credentials: true
@@ -41,7 +42,7 @@ const cpUpload = upload.fields([
 
 app.get('/', (req, res) => {
     res.json({
-        message: "Staff Purchase Form Backend API is running.",
+        message: "March Offer Form Backend API is running.",
         version: "1.0.0",
         status: "healthy"
     });
