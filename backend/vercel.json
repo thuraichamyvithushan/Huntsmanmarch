@@ -22,7 +22,7 @@
         },
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://staffpurchaseaus.hointernal.com"
+          "value": "https://huntsmanmarch.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
