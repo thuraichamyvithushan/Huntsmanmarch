@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
 import bannerImg from '../assets/baner.png';
+import imageCompression from 'browser-image-compression';
 
 const PurchaseRequestForm = () => {
     const { user } = useAuth();
@@ -60,23 +61,51 @@ const PurchaseRequestForm = () => {
     const [boxPhotoFile, setBoxPhotoFile] = useState(null);
     const [boxPhotoPreview, setBoxPhotoPreview] = useState(null);
 
-    const handleReceiptChange = (e) => {
+    const handleReceiptChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setReceiptFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => setReceiptPreview(reader.result);
-            reader.readAsDataURL(file);
+            try {
+                const options = {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true
+                };
+                const compressedFile = await imageCompression(file, options);
+                setReceiptFile(compressedFile);
+                const reader = new FileReader();
+                reader.onloadend = () => setReceiptPreview(reader.result);
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error('Error compressing receipt image:', error);
+                setReceiptFile(file);
+                const reader = new FileReader();
+                reader.onloadend = () => setReceiptPreview(reader.result);
+                reader.readAsDataURL(file);
+            }
         }
     };
 
-    const handleBoxPhotoChange = (e) => {
+    const handleBoxPhotoChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setBoxPhotoFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => setBoxPhotoPreview(reader.result);
-            reader.readAsDataURL(file);
+            try {
+                const options = {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true
+                };
+                const compressedFile = await imageCompression(file, options);
+                setBoxPhotoFile(compressedFile);
+                const reader = new FileReader();
+                reader.onloadend = () => setBoxPhotoPreview(reader.result);
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error('Error compressing box photo:', error);
+                setBoxPhotoFile(file);
+                const reader = new FileReader();
+                reader.onloadend = () => setBoxPhotoPreview(reader.result);
+                reader.readAsDataURL(file);
+            }
         }
     };
 
@@ -259,11 +288,11 @@ const PurchaseRequestForm = () => {
                         <label className="block text-base font-medium text-gray-900 mb-2">
                             Upload the receipt of your purchase <span className="text-red-600">*</span>
                         </label>
-                        <p className="text-xs text-gray-500 mb-6">Upload 1 supported file: PDF or image. Max 10 MB.</p>
+                        <p className="text-xs text-gray-500 mb-6">Upload 1 supported file: Image only. Max 10 MB.</p>
                         <div className="flex flex-col items-start gap-4">
                             <input
                                 type="file"
-                                accept="image/*,application/pdf"
+                                accept="image/*"
                                 required
                                 onChange={handleReceiptChange}
                                 className="block w-full text-sm text-gray-500
@@ -316,11 +345,11 @@ const PurchaseRequestForm = () => {
                         <label className="block text-base font-medium text-gray-900 mb-2">
                             Upload the photo of the box, which includes the serial number <span className="text-red-600">*</span>
                         </label>
-                        <p className="text-xs text-gray-500 mb-6">Upload 1 supported file: PDF, document, or image. Max 10 MB.</p>
+                        <p className="text-xs text-gray-500 mb-6">Upload 1 supported file: Image only. Max 10 MB.</p>
                         <div className="flex flex-col items-start gap-4">
                             <input
                                 type="file"
-                                accept="image/*,application/pdf,.doc,.docx"
+                                accept="image/*"
                                 required
                                 onChange={handleBoxPhotoChange}
                                 className="block w-full text-sm text-gray-500
